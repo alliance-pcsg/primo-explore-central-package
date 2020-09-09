@@ -2,7 +2,7 @@
 * 
 *	Orbis Cascade Alliance Central Package
 *	Environment: Production
-*	Last updated: 20191226
+*	Last updated: 20200909
 *	
 *	Included customizations:
 *		Hide/show Summit institutions (updated 20180701)
@@ -14,7 +14,6 @@
 *   Enlarge Covers (Added 20200311)
 *   Text a Call Number (Added 20200724)
 *   External Search (Added 20200724)
-*
 *   
 */
 
