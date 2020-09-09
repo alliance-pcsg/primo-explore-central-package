@@ -485,9 +485,9 @@ angular
         $scope.favWarning = favSession.getData();
     }
     /*If the user is a guest then the isLoggedIn variable is set to 'false'*/
-    let rootScope = $scope.$root;
-    let uSMS = rootScope.$$childHead.$ctrl.userSessionManagerService;
-    let jwtData = uSMS.jwtUtilService.getDecodedToken();
+    var rootScope = $scope.$root;
+    var uSMS = rootScope.$$childHead.$ctrl.userSessionManagerService;
+    var jwtData = uSMS.jwtUtilService.getDecodedToken();
     if (jwtData.userGroup === "GUEST") {
         $scope.isLoggedIn = 'false';
     }
@@ -809,24 +809,7 @@ angular.module('externalSearch', [])
     }
   })
   .component('externalSearchContents', {
-    template: `
-      <div ng-if="$ctrl.checkName()">
-        <div ng-hide="$ctrl.checkCollapsed()">
-          <div class="section-content animate-max-height-variable">
-            <div class="md-chips md-chips-wrap">
-              <div ng-repeat="target in targets" aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4">
-                <div class="md-chip-content layout-row" role="button" tabindex="0">
-                  <strong dir="auto" title="{{ target.name }}">
-                    <a ng-href="{{ target.url + target.mapping(queries, filters) }}" target="_blank">
-                      <img ng-src="{{ target.img }}" width="22" height="22" alt="{{ target.alt }}" style="vertical-align:middle;"> {{ target.name }}
-                    </a>
-                  </strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`,
+    template: '<div ng-if="$ctrl.checkName()"><div ng-hide="$ctrl.checkCollapsed()"><div class="section-content animate-max-height-variable"><div class="md-chips md-chips-wrap"><div ng-repeat="target in targets" aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4"><div class="md-chip-content layout-row" role="button" tabindex="0"><strong dir="auto" title="{{ target.name }}"><a ng-href="{{ target.url + target.mapping(queries, filters) }}" target="_blank"><img ng-src="{{ target.img }}" width="22" height="22" alt="{{ target.alt }}" style="vertical-align:middle;"> {{ target.name }}</a></strong></div></div></div></div></div></div>',
     controller: function ($scope, $location, externalSearchOptions) {
       $scope.facetName = externalSearchOptions.facetName;
       $scope.targets = externalSearchOptions.searchTargets;
