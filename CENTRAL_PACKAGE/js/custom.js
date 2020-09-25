@@ -858,7 +858,7 @@ angular.module('externalSearch', [])
       { // WorldCat
         "name": "Worldcat",
         "url": "https://www.worldcat.org/search?q=",
-        "img": "/primo-explore/custom/central_package/img/worldcat-logo.png",
+        "img": "/primo-explore/custom/CENTRAL_PACKAGE/img/worldcat-logo.png",
         "alt": "Worldcat Logo",
         mapping: function mapping(queries, filters) {
           var query_mappings = {
@@ -885,7 +885,7 @@ angular.module('externalSearch', [])
       { // Google Scholar
         "name": "Google Scholar",
         "url": "https://scholar.google.com/scholar?q=",
-        "img": "/primo-explore/custom/central_package/img/google-logo.png",
+        "img": "/primo-explore/custom/CENTRAL_PACKAGE/img/google-logo.png",
         "alt": "Google Scholar Logo",
         mapping: function mapping(queries, filters) {
           try {
