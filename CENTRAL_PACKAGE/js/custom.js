@@ -630,10 +630,16 @@ angular
               // Get vid
               var vid = angular.uppercase($location.search().vid);
               
+              // Get institution code
+              var institution = vid;
+              if (angular.isDefined(smsActionOptions.institution) && smsActionOptions.institution != '') {
+                institution = smsActionOptions.institution;
+              }
+              
               // Continue if this institution has availability
               var available = false;
               for (var i=0; i < availinstitution.length; i++) {
-                if (availinstitution[i].indexOf('$$I' + vid) != -1) {
+                if (availinstitution[i].indexOf('$$I' + institution) != -1) {
                   available = true;
                 }
               }
@@ -659,7 +665,7 @@ angular
                 var availlibrary = pnx.display.availlibrary;
                 for (var h = 0; h < availlibrary.length; h++) {
                   var holding = availlibrary[h];
-                  if (holding.indexOf('$$I' + vid) != -1) {
+                  if (holding.indexOf('$$I' + institution) != -1) {
                     var split_holding = holding.split('$$');
                     for (var s = 0; s < split_holding.length; s++) {
                       var sub = split_holding[s];
@@ -785,7 +791,8 @@ angular
         iconSet: 'communication',
         type: 'svg'
       },
-      libraries: ''
+      libraries: '',
+      institution: ''
     });
 
 //* End Text a Call Number  *//
