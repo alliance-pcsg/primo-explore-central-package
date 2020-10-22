@@ -13,3 +13,4 @@ Then follow the documentation for the module(s) you wish to use.
 - [Enlarge Covers](https://www.orbiscascade.org/blog/9/?bid=1861)
 - [Text a Call Number](https://www.orbiscascade.org/blog/9/?bid=1891)
 - [External Search Facet](https://www.orbiscascade.org/blog/9/?bid=1881)
+- Force Login

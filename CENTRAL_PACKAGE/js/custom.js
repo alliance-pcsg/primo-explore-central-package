@@ -14,7 +14,7 @@
 *   Enlarge Covers (Added 20200311)
 *   Text a Call Number (Added 20200724)
 *   External Search (Added 20200724)
-*   
+*   Force Login (Added 20201022)
 */
 
 
@@ -907,5 +907,61 @@ angular.module('externalSearch', [])
   });
 
 //* End External Search *//
+
+//* Begin Force Login *//
+
+    angular
+        .module('forceLogin', [])
+        // Create and handle session storage variable
+        .factory('forceLoginSession', function ($window, $rootScope) {
+            angular.element($window).on('storage', function (event) {
+                if (event.key === 'forceLogin') {
+                    $rootScope.$apply();
+                }
+            });
+            // Functions for setting and getting session data
+            return {
+                setData: function (val) {
+                    $window.sessionStorage && $window.sessionStorage.setItem('forceLogin', val);
+                    return this;
+                },
+                getData: function () {
+                    return $window.sessionStorage && $window.sessionStorage.getItem('forceLogin');
+                }
+            };
+        })
+        // Drop code into element added in local package
+        .component('forceLogin', {
+            controller: function ($scope, $rootScope, forceLoginSession) {
+                this.$onInit = function () {
+                    // Access the control with the loginService
+                    var parentCtrl = $scope.$parent.$parent.$ctrl;
+
+                    // Put results of isSignedIn() into a variable
+                    var checkLogin = false;
+                    if (parentCtrl.isSignedIn() && !angular.isUndefined(parentCtrl.userName())) {
+                        checkLogin = true;
+                    }
+
+                    // Get variable from session storage
+                    $scope.forceLogin = forceLoginSession.getData();
+
+                    // If the session variable is still null because user is not logged in and has not dismissed the login dialog
+                    if (($scope.forceLogin == null) && (checkLogin == false)) {
+                        // Open the login dialog box
+                        parentCtrl.loginService.handleLoginClick();
+                        // And set the session variable
+                        forceLoginSession.setData('true');
+                    }
+                    // Handle opening a new browser tab when logged in: the page loads with userName undefined, then later populates
+                    // so this will close the dialog box once the page finishes loading
+                    else if (checkLogin == true) {
+                        parentCtrl.loginService.$mdDialog.destroy();
+                    }
+                }
+            }
+        });
+
+//* End Force Login *//
 
 })();
