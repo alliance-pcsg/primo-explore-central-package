@@ -871,8 +871,11 @@ angular.module('externalSearch', [])
 //* Begin eshelf.menu link module *//
   angular
     .module('eShelfLinks', [])
-    .controller('DirectiveController',function($scope, eShelfOptions){
+    .controller('DirectiveController',function($scope, $window, eShelfOptions){
       $scope.data = eShelfOptions;
+      $scope.openLink = function (url) {
+        $window.open(url);
+      }
     })
     .directive('mdMenuContent', function($compile){
       return {
@@ -901,12 +904,10 @@ angular.module('externalSearch', [])
               var el = '<' + directiveName
                 + ' class="'+ directiveClass + '">'
                 + '<button class="button-with-icon md-button md-primoExplore-theme md-ink-ripple" type="button" aria-label="'                               
-                + $scope.label 
-                + '"><md-icon md-svg-icon="' 
-                + directiveIcon 
-                + '"></md-icon><a href="'
-                + directiveLink + '" target="_blank" class="custom-link">'                               
-                + directiveText + '</a></button>'
+                + directiveLabel + '" ng-click="openLink(\'' + directiveLink + '\')">'
+                + '<md-icon md-svg-icon="' + directiveIcon + '"></md-icon>'
+                + '<span class="custom-link">' + directiveText + '</span>'
+                + '</button>'
                 + '</' + directiveName + '">';
               var compiledEl = angular.element($compile(el)($scope));
               var menu = document.querySelector('custom-directive'); 
