@@ -4,9 +4,9 @@
 *	Environment: Production
 *	Last updated: 20200909
 *	
-*	Included customizations:
-*		Hide/show Summit institutions (updated 20180701)
-*		Insert custom action (updated 20181107)
+* Included customizations:
+*   Hide/show Summit institutions (updated 20180701)
+*   Insert custom action (updated 20181107)
 *   Custom model window for peer-review and open access badges (updated 20191226)
 *   Toggle advanced search in mobile display (updated 20181009)
 *   Favorite signin warning (updated 20200311)
@@ -14,9 +14,8 @@
 *   Text a Call Number (Added 20200724)
 *   External Search (Added 20200724)
 *   Force Login (Added 20201022)
+*   eShelf Links (Added 20201103)
 */
-
-
 
 
 (function(){
@@ -868,5 +867,59 @@ angular.module('externalSearch', [])
         });
 
 //* End Force Login *//
+
+//* Begin eshelf.menu link module *//
+  angular
+    .module('eShelfLinks', [])
+    .controller('DirectiveController',function($scope, eShelfOptions){
+      $scope.data = eShelfOptions;
+    })
+    .directive('mdMenuContent', function($compile){
+      return {
+         restrict: "E",
+         link: function($scope, $element){
+          var customEl = angular.element('<custom-directive></custom-directive>');
+          $element.append(customEl);
+          $compile(customEl)($scope);
+        }
+      }
+    })
+    .directive('customDirective', function ($window, $compile) {
+      return {
+        restrict: "E",
+        controller: 'DirectiveController',
+        scope: {data: '=?'},
+        link: function ($scope, $element, $attr, ctrl) {
+          if($scope.data.items.length > 0){
+            angular.forEach($scope.data.items, function (value, index) {
+              var directiveName = "md-menu-item",
+              directiveLabel = value.label,
+              directiveClass = "menu-custom-link",
+              directiveText = value.text,
+              directiveLink = value.link,
+              directiveIcon = value.icon;
+              var el = '<' + directiveName
+                + ' class="'+ directiveClass + '">'
+                + '<button class="button-with-icon md-button md-primoExplore-theme md-ink-ripple" type="button" aria-label="'                               
+                + $scope.label 
+                + '"><md-icon md-svg-icon="' 
+                + directiveIcon 
+                + '"></md-icon><a href="'
+                + directiveLink + '" target="_blank" class="custom-link">'                               
+                + directiveText + '</a></button>'
+                + '</' + directiveName + '">';
+              var compiledEl = angular.element($compile(el)($scope));
+              var menu = document.querySelector('custom-directive'); 
+              menu.appendChild(compiledEl[0]);       
+            });    
+          }          
+        }       
+      };      
+    })
+    .value('eShelfOptions', {
+      items:[]
+    });
+//* End eshelf.menu link module *//
+
 
 })();
