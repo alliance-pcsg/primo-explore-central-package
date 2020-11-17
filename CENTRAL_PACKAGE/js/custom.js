@@ -543,7 +543,7 @@ angular
               // Continue if this institution has availability
               var available = false;
               for (var i=0; i < availinstitution.length; i++) {
-                if (availinstitution[i].indexOf('$$I' + institution) != -1) {
+                if (availinstitution[i].indexOf('$$I' + institution + '$$') != -1) {
                   available = true;
                 }
               }
@@ -556,10 +556,13 @@ angular
                 var mms_id = '';
                 var lds04 = pnx.display.lds04;
                 if (!angular.isUndefined(lds04)) {
-                  var loc = '$$I' + vid;
+                  var loc_start = 0;
+                  var loc = '';
                   for (var m=0; m < lds04.length; m++) {
-                    if (lds04[m].includes(loc)) {
-                      mms_id = lds04[m].replace(loc, '');
+                    loc_start = lds04[m].indexOf('$$I');
+                    loc = lds04[m].substr(loc_start);
+                    if (loc == '$$I' + vid) {
+                      mms_id = lds04[m].substr(0, loc_start);
                     }
                   }
                 }
@@ -569,7 +572,7 @@ angular
                 var availlibrary = pnx.display.availlibrary;
                 for (var h = 0; h < availlibrary.length; h++) {
                   var holding = availlibrary[h];
-                  if (holding.indexOf('$$I' + institution) != -1) {
+                  if (holding.indexOf('$$I' + institution + '$$') != -1) {
                     var split_holding = holding.split('$$');
                     for (var s = 0; s < split_holding.length; s++) {
                       var sub = split_holding[s];
