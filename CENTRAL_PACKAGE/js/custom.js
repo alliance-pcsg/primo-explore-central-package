@@ -332,8 +332,8 @@ angular
 
     }
 });
-    // Set default values for toggleAdvancedFields module
-    // show_button_for can be 'mobile' or 'all'
+// Set default values for toggleAdvancedFields module
+// show_button_for can be 'mobile' or 'all'
 angular.module('toggleAdvancedFields').value('advancedFieldsOptions', {
     show_button_for: 'mobile',
     show_label: 'Show Additional Fields',
@@ -522,11 +522,17 @@ angular
       controller: function controller($scope, $location, $http, $mdDialog, customActions, smsActionOptions) {
         var _this = this;
         this.$onInit = function () {
+          
           // Set defaults;
           var vid = '';
           var mms_id = '';
           var show_sms = false;
           var pnx = $scope.$parent.$parent.$ctrl.item.pnx;
+          
+          // Remove action if it exists from a previous record
+          customActions.removeAction({name: 'sms_action'}, _this.prmActionCtrl);
+          
+          // If a single PNX is defined, add the action
           if (!angular.isUndefined(pnx)) {
             // Get available institutions
             var availinstitution = pnx.display.availinstitution;
@@ -603,23 +609,20 @@ angular
                 }
               }
             }
-            // Define action
-            _this.sms_action = {
-              name: 'sms_action',
-              label: smsActionOptions.label,
-              index: smsActionOptions.index,
-              icon: smsActionOptions.icon,
-              onToggle: _this.showSmsForm(vid, title, mms_id, joined_holdings)
-            };
-            // Add action if show_sms is true, otherwise remove it
+            
+            // Add action if show_sms is true
             if (show_sms) {
-              customActions.removeAction(_this.sms_action, _this.prmActionCtrl);
+              // Define action
+              _this.sms_action = {
+                name: 'sms_action',
+                label: smsActionOptions.label,
+                index: smsActionOptions.index,
+                icon: smsActionOptions.icon,
+                onToggle: _this.showSmsForm(vid, title, mms_id, joined_holdings)
+              };
               customActions.addAction(_this.sms_action, _this.prmActionCtrl);
             }
-            else {
-              customActions.removeAction(_this.sms_action, _this.prmActionCtrl);
-            }
-          };
+          }
         }
         
         // SMS dialog
