@@ -582,7 +582,7 @@ angular
                       var sub_value = sub.substring(1);
                       switch (sub.charAt(0)) {
                         case '1':
-                          var library_location = sub_value.replace(';','%3B');
+                          var library_location = sub_value.replace(/;/g,'%3B');
                         break;
                         case '2':
                           var call_number = sub_value;
